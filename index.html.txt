@@ -4,23 +4,59 @@
     <meta charset="UTF-8">
     <title>Event Management System</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
 <body>
 
+<header>
     <h1>Event Management System</h1>
+    <p>Register and manage events easily</p>
+</header>
 
-    <div class="event">
+<section class="events">
+    <div class="event-card">
         <h2>AI & ML Workshop</h2>
         <p>Date: 25 Sept 2025</p>
-        <button onclick="registerEvent('AI & ML Workshop')">Register</button>
+        <button onclick="openForm('AI & ML Workshop')">Register</button>
     </div>
 
-    <div class="event">
+    <div class="event-card">
         <h2>Web Development Bootcamp</h2>
         <p>Date: 30 Sept 2025</p>
-        <button onclick="registerEvent('Web Development Bootcamp')">Register</button>
+        <button onclick="openForm('Web Development Bootcamp')">Register</button>
     </div>
+</section>
 
-    <script src="script.js"></script>
+<!-- Registration Form -->
+<div class="form-container" id="formContainer">
+    <h2 id="eventTitle"></h2>
+    <form id="registrationForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <button type="submit">Submit</button>
+        <button type="button" class="cancel" onclick="closeForm()">Cancel</button>
+    </form>
+</div>
+
+<section class="admin">
+    <h2>Registered Users</h2>
+    <button onclick="loadRegistrations()">View Registrations</button>
+
+    <table id="registrationTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Event</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</section>
+
+<script src="script.js"></script>
 </body>
 </html>
