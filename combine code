@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Management System</title>
+
+    <!-- ================= CSS ================= -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+        }
+
+        header {
+            background: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .events {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px;
+            flex-wrap: wrap;
+        }
+
+        .event-card {
+            background: white;
+            padding: 20px;
+            width: 260px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .form-container {
+            display: none;
+            background: white;
+            width: 350px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .form-container input {
+            width: 95%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .cancel {
+            background: gray;
+        }
+
+        .admin {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            display: none;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Event Management System</h1>
+    <p>Register for events easily</p>
+</header>
+
+<section class="events">
+    <div class="event-card">
+        <h2>AI & ML Workshop</h2>
+        <p>Date: 25 Sept 2025</p>
+        <button onclick="openForm('AI & ML Workshop')">Register</button>
+    </div>
+
+    <div class="event-card">
+        <h2>Web Development Bootcamp</h2>
+        <p>Date: 30 Sept 2025</p>
+        <button onclick="openForm('Web Development Bootcamp')">Register</button>
+    </div>
+</section>
+
+<!-- Registration Form -->
+<div class="form-container" id="formContainer">
+    <h2 id="eventTitle"></h2>
+    <form id="registrationForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <button type="submit">Submit</button>
+        <button type="button" class="cancel" onclick="closeForm()">Cancel</button>
+    </form>
+</div>
+
+<section class="admin">
+    <h2>Registered Users</h2>
+    <button onclick="showRegistrations()">View Registrations</button>
+    <button onclick="clearRegistrations()">Clear All</button>
+
+    <table id="registrationTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Event</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</section>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+    let selectedEvent = "";
+
+    function openForm(eventName) {
+        selectedEvent = eventName;
+        document.getElementById("eventTitle").innerText = eventName;
+        document.getElementById("formContainer").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("formContainer").style.display = "none";
+        document.getElementById("registrationForm").reset();
+    }
+
+    document.getElementById("registrationForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+
+        let registrations = JSON.parse(localStorage.getItem("registrations")) || [];
+        registrations.push({ name, email, event: selectedEvent });
+
+        localStorage.setItem("registrations", JSON.stringify(registrations));
+
+        alert("Registration successful!");
+        closeForm();
+    });
+
+    function showRegistrations() {
+        const table = document.getElementById("registrationTable");
+        const tbody = table.querySelector("tbody");
+        tbody.innerHTML = "";
+
+        let registrations = JSON.parse(localStorage.getItem("registrations")) || [];
+
+        if (registrations.length === 0) {
+            alert("No registrations found.");
+            return;
+        }
+
+        registrations.forEach(reg => {
+            let row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${reg.name}</td>
+                <td>${reg.email}</td>
+                <td>${reg.event}</td>
+            `;
+            tbody.appendChild(row);
+        });
+
+        table.style.display = "table";
+    }
+
+    function clearRegistrations() {
+        if (confirm("Are you sure you want to clear all registrations?")) {
+            localStorage.removeItem("registrations");
+            document.getElementById("registrationTable").style.display = "none";
+            alert("All registrations cleared.");
+        }
+    }
+</script>
+
+</body>
+</html>
