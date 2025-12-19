@@ -1,0 +1,15 @@
+function registerEvent(eventName) {
+    let name = prompt("Enter your name:");
+
+    if (name === null || name.trim() === "") {
+        alert("Registration cancelled.");
+        return;
+    }
+
+    let registrations = JSON.parse(localStorage.getItem("registrations")) || [];
+    registrations.push({ name, eventName });
+
+    localStorage.setItem("registrations", JSON.stringify(registrations));
+
+    alert(`Successfully registered ${name} for ${eventName}`);
+}

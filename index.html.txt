@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Event Management System</h1>
+
+    <div class="event">
+        <h2>AI & ML Workshop</h2>
+        <p>Date: 25 Sept 2025</p>
+        <button onclick="registerEvent('AI & ML Workshop')">Register</button>
+    </div>
+
+    <div class="event">
+        <h2>Web Development Bootcamp</h2>
+        <p>Date: 30 Sept 2025</p>
+        <button onclick="registerEvent('Web Development Bootcamp')">Register</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
